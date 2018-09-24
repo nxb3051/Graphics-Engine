@@ -253,7 +253,7 @@ void Game::Draw(float deltaTime, float totalTime)
 		XMFLOAT4X4 worldMat = shapes[i].GetWorldMat();
 
 		vertexShader->SetMatrix4x4("world", worldMat);
-		vertexShader->SetMatrix4x4("view", viewMatrix);
+		vertexShader->SetMatrix4x4("view", cam->GetViewMatrix());
 		vertexShader->SetMatrix4x4("projection", projectionMatrix);
 
 		vertexShader->CopyAllBufferData();

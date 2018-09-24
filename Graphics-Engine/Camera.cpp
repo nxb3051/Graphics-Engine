@@ -4,6 +4,7 @@ void Camera::DetectInput(float deltaTime)
 {
 	if (GetAsyncKeyState('W') & 0x8000) {
 		XMVECTOR directionalMovement = XMLoadFloat4(&direction);
+		directionalMovement = XMVectorScale(directionalMovement, movementSpeed);
 		directionalMovement *= deltaTime;
 		XMVECTOR pos = XMLoadFloat4(&position);
 		pos = XMVector3Transform(pos, XMMatrixTranslationFromVector(directionalMovement));
@@ -11,6 +12,7 @@ void Camera::DetectInput(float deltaTime)
 	}
 	if (GetAsyncKeyState('S') & 0x8000) {
 		XMVECTOR directionalMovement = XMLoadFloat4(&direction);
+		directionalMovement = XMVectorScale(directionalMovement, movementSpeed);
 		directionalMovement *= -deltaTime;
 		XMVECTOR pos = XMLoadFloat4(&position);
 		pos = XMVector3Transform(pos, XMMatrixTranslationFromVector(directionalMovement));
@@ -23,6 +25,7 @@ void Camera::DetectInput(float deltaTime)
 
 		XMVECTOR right = XMVector3Cross(directionalMovement, above);
 
+		right = XMVectorScale(right, movementSpeed);
 		right *= -deltaTime;
 
 		pos = XMVector3Transform(pos, XMMatrixTranslationFromVector(right));
@@ -35,6 +38,7 @@ void Camera::DetectInput(float deltaTime)
 
 		XMVECTOR left = XMVector3Cross(directionalMovement, above);
 
+		left = XMVectorScale(left, movementSpeed);
 		left *= deltaTime;
 
 		pos = XMVector3Transform(pos, XMMatrixTranslationFromVector(left));
@@ -80,5 +84,5 @@ void Camera::Update(float deltaTime)
 
 XMFLOAT4X4 Camera::GetViewMatrix()
 {
-	return XMFLOAT4X4();
+	return viewMatrix;
 }

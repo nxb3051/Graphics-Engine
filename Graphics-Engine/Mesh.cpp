@@ -44,16 +44,18 @@ Mesh::Mesh(Vertex * vertArray, int numOfVerts, int * indexArray, int numOfInds, 
 
 Mesh::~Mesh()
 {
+	vertexBuffer->Release();
+	indexBuffer->Release();
 }
 
 ID3D11Buffer * Mesh::GetVertexBuffer()
 {
-	return nullptr;
+	return vertexBuffer;
 }
 
 ID3D11Buffer * Mesh::GetIndexBuffer()
 {
-	return nullptr;
+	return indexBuffer;
 }
 
 Vertex * Mesh::GetVertices()

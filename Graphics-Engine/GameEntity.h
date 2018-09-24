@@ -1,9 +1,9 @@
 #pragma once
 
-#include <d3d11.h>;
-#include <DirectXMath.h>;
-#include <memory>;
-#include "Mesh.h";
+#include <d3d11.h>
+#include <DirectXMath.h>
+#include <memory>
+#include "Mesh.h"
 
 using namespace DirectX;
 using namespace std;

@@ -17,7 +17,7 @@ private:
 	XMFLOAT4 up;
 	float xRotation;
 	float zRotation;
-	float movementSpeed = 1.0f;
+	float movementSpeed = 3.0f;
 	void DetectInput(float deltaTime);
 public:
 	Camera();
