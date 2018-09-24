@@ -23,6 +23,9 @@ Game::Game(HINSTANCE hInstance)
 	// Initialize fields
 	vertexShader = 0;
 	pixelShader = 0;
+	triangleMesh = 0;
+	squareMesh = 0;
+	cam = new Camera();
 
 #if defined(DEBUG) || defined(_DEBUG)
 	// Do we want a console window?  Probably only in debug mode
@@ -43,6 +46,9 @@ Game::~Game()
 	// will clean up their own internal DirectX stuff
 	delete vertexShader;
 	delete pixelShader;
+	delete triangleMesh;
+	delete squareMesh;
+	delete cam;
 }
 
 // --------------------------------------------------------
@@ -157,18 +163,15 @@ void Game::CreateBasicGeometry()
 
 	int squIndices[] = { 0, 1, 2, 0, 2, 3 };
 
-	shared_ptr<Mesh> triMeshOne(new Mesh(triVertices, 3, triIndices, 3));
-	shared_ptr<Mesh> triMeshTwo(triMeshOne);
-	shared_ptr<Mesh> triMeshThree(triMeshOne);
+	triangleMesh = new Mesh(triVertices, 3, triIndices, 3, device);
 
-	shared_ptr<Mesh> squMeshOne(new Mesh(squVertices, 4, squIndices, 6));
-	shared_ptr<Mesh> squMeshTwo(squMeshOne);
+	squareMesh = new Mesh(squVertices, 4, squIndices, 6, device);
 
-	GameEntity triOne = GameEntity(triMeshOne, device);
-	GameEntity triTwo = GameEntity(triMeshTwo, device);
-	GameEntity triThree = GameEntity(triMeshThree, device);
-	GameEntity squOne = GameEntity(squMeshOne, device);
-	GameEntity squTwo = GameEntity(squMeshTwo, device);
+	GameEntity triOne = GameEntity(triangleMesh);
+	GameEntity triTwo = GameEntity(triangleMesh);
+	GameEntity triThree = GameEntity(triangleMesh);
+	GameEntity squOne = GameEntity(squareMesh);
+	GameEntity squTwo = GameEntity(squareMesh);
 
 	triTwo.SetRotation(XMFLOAT3(0.0f, 0.0f, 3.14f));
 	triThree.SetPosition(XMFLOAT3(0.0f, -1.5f, 0.0f));
@@ -212,7 +215,7 @@ void Game::Update(float deltaTime, float totalTime)
 	if (GetAsyncKeyState(VK_ESCAPE))
 		Quit();
 
-	cam.Update(deltaTime);
+	cam->Update(deltaTime);
 
 	if (shapes.size() > 0) {
 		shapes[0].RotateZ(1.0f * deltaTime);
@@ -250,7 +253,7 @@ void Game::Draw(float deltaTime, float totalTime)
 		XMFLOAT4X4 worldMat = shapes[i].GetWorldMat();
 
 		vertexShader->SetMatrix4x4("world", worldMat);
-		vertexShader->SetMatrix4x4("view", cam.GetViewMatrix());
+		vertexShader->SetMatrix4x4("view", viewMatrix);
 		vertexShader->SetMatrix4x4("projection", projectionMatrix);
 
 		vertexShader->CopyAllBufferData();

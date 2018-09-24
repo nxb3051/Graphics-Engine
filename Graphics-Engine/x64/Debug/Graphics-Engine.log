@@ -1,24 +1,7 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(387,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (DX11Starter.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  compilation object save succeeded; see C:\Users\Thunder Hammer\Repositories\Graphic-Engine\Graphics-Engine\x64\Debug\PixelShader.cso
-  compilation object save succeeded; see C:\Users\Thunder Hammer\Repositories\Graphic-Engine\Graphics-Engine\x64\Debug\VertexShader.cso
-  SimpleShader.cpp
-  Mesh.cpp
-  Main.cpp
-c:\users\thunder hammer\repositories\graphic-engine\graphics-engine\graphics-engine\gameentity.h(3): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\thunder hammer\repositories\graphic-engine\graphics-engine\graphics-engine\gameentity.h(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\thunder hammer\repositories\graphic-engine\graphics-engine\graphics-engine\gameentity.h(5): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\thunder hammer\repositories\graphic-engine\graphics-engine\graphics-engine\gameentity.h(6): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  GameEntity.cpp
-c:\users\thunder hammer\repositories\graphic-engine\graphics-engine\graphics-engine\gameentity.h(3): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\thunder hammer\repositories\graphic-engine\graphics-engine\graphics-engine\gameentity.h(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\thunder hammer\repositories\graphic-engine\graphics-engine\graphics-engine\gameentity.h(5): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\thunder hammer\repositories\graphic-engine\graphics-engine\graphics-engine\gameentity.h(6): warning C4067: unexpected tokens following preprocessor directive - expected a newline
   Game.cpp
-c:\users\thunder hammer\repositories\graphic-engine\graphics-engine\graphics-engine\gameentity.h(3): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\thunder hammer\repositories\graphic-engine\graphics-engine\graphics-engine\gameentity.h(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\thunder hammer\repositories\graphic-engine\graphics-engine\graphics-engine\gameentity.h(5): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\thunder hammer\repositories\graphic-engine\graphics-engine\graphics-engine\gameentity.h(6): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  DXCore.cpp
-  Camera.cpp
-  Generating Code...
-  Graphics-Engine.vcxproj -> C:\Users\Thunder Hammer\Repositories\Graphic-Engine\Graphics-Engine\x64\Debug\Graphics-Engine.exe
+c:\users\thunder hammer\repositories\graphics-engine\graphics-engine\gameentity.h(3): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\thunder hammer\repositories\graphics-engine\graphics-engine\gameentity.h(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\thunder hammer\repositories\graphics-engine\graphics-engine\gameentity.h(5): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\thunder hammer\repositories\graphics-engine\graphics-engine\gameentity.h(6): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  Graphics-Engine.vcxproj -> C:\Users\Thunder Hammer\Repositories\Graphics-Engine\x64\Debug\Graphics-Engine.exe

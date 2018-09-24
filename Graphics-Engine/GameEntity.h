@@ -11,17 +11,15 @@ using namespace std;
 class GameEntity
 {
 private:
-	ID3D11Buffer * vertexBuffer;
-	ID3D11Buffer * indexBuffer;
 	XMFLOAT4X4 worldMat;
 	XMFLOAT3 position;
 	XMFLOAT3 rotation;
 	XMFLOAT3 scale;
-	shared_ptr<Mesh> myMesh;
+	Mesh * myMesh;
 	bool changed;
 public:
 	GameEntity();
-	GameEntity(shared_ptr<Mesh> mesh, ID3D11Device * directXDevice);
+	GameEntity(Mesh * mesh);
 	~GameEntity();
 	XMFLOAT4X4 GetWorldMat();
 	XMFLOAT3 GetPosition();

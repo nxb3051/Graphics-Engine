@@ -7,13 +7,11 @@ GameEntity::GameEntity()
 	scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
 	XMStoreFloat4x4(&worldMat, XMMatrixIdentity());
 	myMesh = nullptr;
-	vertexBuffer = nullptr;
-	indexBuffer = nullptr;
 	changed = false;
 }
 
 //Sets default values for transformation vectors and world matrix
-GameEntity::GameEntity(shared_ptr<Mesh> mesh, ID3D11Device * directXDevice)
+GameEntity::GameEntity(Mesh * mesh)
 {
 	position = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
@@ -21,41 +19,13 @@ GameEntity::GameEntity(shared_ptr<Mesh> mesh, ID3D11Device * directXDevice)
 	XMStoreFloat4x4(&worldMat, XMMatrixIdentity());
 	myMesh = mesh;
 
-	//Vertex Buffer
-	D3D11_BUFFER_DESC vbd;
-	vbd.Usage = D3D11_USAGE_IMMUTABLE;
-	vbd.ByteWidth = sizeof(Vertex) * myMesh.get()->GetVertexCount();
-	vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vbd.CPUAccessFlags = 0;
-	vbd.MiscFlags = 0;
-	vbd.StructureByteStride = 0;
-
-	D3D11_SUBRESOURCE_DATA initialVertexData;
-	initialVertexData.pSysMem = myMesh.get()->GetVertices();
-
-	directXDevice->CreateBuffer(&vbd, &initialVertexData, &vertexBuffer);
-
-	//Index Buffer
-	D3D11_BUFFER_DESC ibd;
-	ibd.Usage = D3D11_USAGE_IMMUTABLE;
-	ibd.ByteWidth = sizeof(int) * myMesh.get()->GetIndexCount();
-	ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	ibd.CPUAccessFlags = 0;
-	ibd.MiscFlags = 0;
-	ibd.StructureByteStride = 0;
-
-	D3D11_SUBRESOURCE_DATA initialIndexData;
-	initialIndexData.pSysMem = myMesh.get()->GetIndices();
-
-	directXDevice->CreateBuffer(&ibd, &initialIndexData, &indexBuffer);
-
 	changed = false;
 }
 
 //Clears allocated memory for pointers
 GameEntity::~GameEntity()
 {
-	myMesh.reset();
+	myMesh = nullptr;
 }
 
 //Returns the entity's world matrix
@@ -143,8 +113,10 @@ void GameEntity::Draw(ID3D11DeviceContext * context)
 		UINT stride = sizeof(Vertex);
 		UINT offset = 0;
 
-		context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
-		context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-		context->DrawIndexed(myMesh.get()->GetIndexCount(), 0, 0);
+		ID3D11Buffer * tempVertexBuffer = myMesh->GetVertexBuffer();
+
+		context->IASetVertexBuffers(0, 1, &tempVertexBuffer, &stride, &offset);
+		context->IASetIndexBuffer(myMesh->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
+		context->DrawIndexed(myMesh->GetIndexCount(), 0, 0);
 	}
 }

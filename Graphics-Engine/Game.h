@@ -38,9 +38,12 @@ private:
 	void CreateMatrices();
 	void CreateBasicGeometry();
 
+	Mesh * triangleMesh;
+	Mesh * squareMesh;
+
 	vector<GameEntity> shapes;
 
-	Camera cam;
+	Camera * cam;
 
 	// Wrappers for DirectX shaders to provide simplified functionality
 	SimpleVertexShader* vertexShader;
