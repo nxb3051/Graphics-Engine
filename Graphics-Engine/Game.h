@@ -41,6 +41,8 @@ private:
 	Mesh * triangleMesh;
 	Mesh * squareMesh;
 
+	Material * simpleMaterial;
+
 	vector<GameEntity> shapes;
 
 	Camera * cam;

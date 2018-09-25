@@ -11,13 +11,14 @@ GameEntity::GameEntity()
 }
 
 //Sets default values for transformation vectors and world matrix
-GameEntity::GameEntity(Mesh * mesh)
+GameEntity::GameEntity(Mesh * mesh, Material * material)
 {
 	position = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	scale = XMFLOAT3(1.0f, 1.0f, 1.0f);
 	XMStoreFloat4x4(&worldMat, XMMatrixIdentity());
 	myMesh = mesh;
+	myMaterial = material;
 
 	changed = false;
 }
@@ -105,6 +106,22 @@ void GameEntity::CalculateWorldMat()
 		XMStoreFloat4x4(&worldMat, XMMatrixTranspose((scaling * rotating) * translation));
 		changed = false;
 	}
+}
+
+void GameEntity::PrepareMaterial(XMFLOAT4X4 viewMat, XMFLOAT4X4 projMat)
+{
+	CalculateWorldMat();
+
+	SimpleVertexShader * tempVertShader = myMaterial->GetVertexShader();
+
+	tempVertShader->SetMatrix4x4("world", worldMat);
+	tempVertShader->SetMatrix4x4("view", viewMat);
+	tempVertShader->SetMatrix4x4("projection", projMat);
+
+	tempVertShader->CopyAllBufferData();
+
+	tempVertShader->SetShader();
+	myMaterial->GetPixelShader()->SetShader();
 }
 
 void GameEntity::Draw(ID3D11DeviceContext * context)

@@ -60,8 +60,8 @@ Camera::Camera()
 	direction = XMFLOAT4(0.0f, 0.0f, 1.0f, 0.0f);
 	up = XMFLOAT4(0.0f, 1.0f, 0.0f, 0.0f);
 
-	xRotation = 0.0f;
-	zRotation = 0.0f;
+	xRotation = -1.0f;
+	yRotation = -1.0f;
 }
 
 Camera::~Camera()
@@ -71,18 +71,55 @@ Camera::~Camera()
 void Camera::Update(float deltaTime)
 {
 	DetectInput(deltaTime);
-	XMVECTOR rotation = XMQuaternionRotationRollPitchYaw(xRotation, 0.0f, zRotation);
+	XMVECTOR rotation = XMQuaternionRotationRollPitchYaw(xRotation, yRotation, 0.0f);
 	XMFLOAT3 zDefault = XMFLOAT3(0.0f, 0.0f, 1.0f);
 	XMVECTOR forward = XMLoadFloat3(&zDefault);
 
 	forward = XMVector3Rotate(forward, rotation);
 
-	XMMATRIX view = XMMatrixLookToLH(XMLoadFloat4(&position), XMLoadFloat4(&direction), XMLoadFloat4(&up));
+	XMMATRIX view = XMMatrixLookToLH(XMLoadFloat4(&position), forward, XMLoadFloat4(&up));
 
+	XMStoreFloat4(&direction, forward);
 	XMStoreFloat4x4(&viewMatrix, XMMatrixTranspose(view));
+}
+
+void Camera::Rotate(float xAngle, float yAngle)
+{
+	float rotate = xAngle * 3.14159265 / 180;
+	xRotation -= rotate;
+	if (xRotation > 180) {
+		xRotation = 180;
+	}
+	else if (xRotation < -180) {
+		xRotation = -180;
+	}
+
+	rotate = yAngle * 3.14159265 / 180;
+	yRotation += rotate;
+	if (yRotation > 180) {
+		yRotation = 180;
+	}
+	else if (yRotation < -180) {
+		yRotation = -180;
+	}
 }
 
 XMFLOAT4X4 Camera::GetViewMatrix()
 {
 	return viewMatrix;
+}
+
+XMFLOAT4X4 Camera::GetProjectionMatrix()
+{
+	return projectionMatrix;
+}
+
+void Camera::SetProjectionMatrix(float width, float height)
+{
+	XMMATRIX P = XMMatrixPerspectiveFovLH(
+		0.25f * 3.1415926535f,	
+		(float)width / height,
+		0.1f,				
+		100.0f);
+	XMStoreFloat4x4(&projectionMatrix, XMMatrixTranspose(P));
 }

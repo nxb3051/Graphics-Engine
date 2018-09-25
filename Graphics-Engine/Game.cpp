@@ -25,6 +25,7 @@ Game::Game(HINSTANCE hInstance)
 	pixelShader = 0;
 	triangleMesh = 0;
 	squareMesh = 0;
+	simpleMaterial = 0;
 	cam = new Camera();
 
 #if defined(DEBUG) || defined(_DEBUG)
@@ -48,6 +49,7 @@ Game::~Game()
 	delete pixelShader;
 	delete triangleMesh;
 	delete squareMesh;
+	delete simpleMaterial;
 	delete cam;
 }
 
@@ -62,6 +64,7 @@ void Game::Init()
 	//  - You'll be expanding and/or replacing these later	
 	LoadShaders();
 	CreateMatrices();
+	cam->SetProjectionMatrix(width, height);
 	CreateBasicGeometry();
 
 	// Tell the input assembler stage of the pipeline what kind of
@@ -83,6 +86,8 @@ void Game::LoadShaders()
 
 	pixelShader = new SimplePixelShader(device, context);
 	pixelShader->LoadShaderFile(L"PixelShader.cso");
+
+	simpleMaterial = new Material(vertexShader, pixelShader);
 }
 
 
@@ -167,11 +172,11 @@ void Game::CreateBasicGeometry()
 
 	squareMesh = new Mesh(squVertices, 4, squIndices, 6, device);
 
-	GameEntity triOne = GameEntity(triangleMesh);
-	GameEntity triTwo = GameEntity(triangleMesh);
-	GameEntity triThree = GameEntity(triangleMesh);
-	GameEntity squOne = GameEntity(squareMesh);
-	GameEntity squTwo = GameEntity(squareMesh);
+	GameEntity triOne = GameEntity(triangleMesh, simpleMaterial);
+	GameEntity triTwo = GameEntity(triangleMesh, simpleMaterial);
+	GameEntity triThree = GameEntity(triangleMesh, simpleMaterial);
+	GameEntity squOne = GameEntity(squareMesh, simpleMaterial);
+	GameEntity squTwo = GameEntity(squareMesh, simpleMaterial);
 
 	triTwo.SetRotation(XMFLOAT3(0.0f, 0.0f, 3.14f));
 	triThree.SetPosition(XMFLOAT3(0.0f, -1.5f, 0.0f));
@@ -197,13 +202,7 @@ void Game::OnResize()
 	// Handle base-level DX resize stuff
 	DXCore::OnResize();
 
-	// Update our projection matrix since the window size changed
-	XMMATRIX P = XMMatrixPerspectiveFovLH(
-		0.25f * 3.1415926535f,	// Field of View Angle
-		(float)width / height,	// Aspect ratio
-		0.1f,				  	// Near clip plane distance
-		100.0f);			  	// Far clip plane distance
-	XMStoreFloat4x4(&projectionMatrix, XMMatrixTranspose(P)); // Transpose for HLSL!
+	cam->SetProjectionMatrix(width, height);
 }
 
 // --------------------------------------------------------
@@ -248,19 +247,8 @@ void Game::Draw(float deltaTime, float totalTime)
 	//  - The "SimpleShader" class handles all of that for you.
 
 	for (int i = 0; i < shapes.size(); i++) {
-		shapes[i].CalculateWorldMat();
 		
-		XMFLOAT4X4 worldMat = shapes[i].GetWorldMat();
-
-		vertexShader->SetMatrix4x4("world", worldMat);
-		vertexShader->SetMatrix4x4("view", cam->GetViewMatrix());
-		vertexShader->SetMatrix4x4("projection", projectionMatrix);
-
-		vertexShader->CopyAllBufferData();
-
-		vertexShader->SetShader();
-		pixelShader->SetShader();
-
+		shapes[i].PrepareMaterial(cam->GetViewMatrix(), cam->GetProjectionMatrix());
 		shapes[i].Draw(context);
 	}
 
@@ -312,6 +300,10 @@ void Game::OnMouseUp(WPARAM buttonState, int x, int y)
 void Game::OnMouseMove(WPARAM buttonState, int x, int y)
 {
 	// Add any custom code here...
+
+	float yAngle = x - prevMousePos.x;
+	float xAngle = y - prevMousePos.y;
+	cam->Rotate(xAngle, yAngle);
 
 	// Save the previous mouse position, so we have it for the future
 	prevMousePos.x = x;
