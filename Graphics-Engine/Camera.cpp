@@ -60,8 +60,8 @@ Camera::Camera()
 	direction = XMFLOAT4(0.0f, 0.0f, 1.0f, 0.0f);
 	up = XMFLOAT4(0.0f, 1.0f, 0.0f, 0.0f);
 
-	xRotation = -1.0f;
-	yRotation = -1.0f;
+	xRotation = 3.14159265f;
+	yRotation = 3.14159265f;
 }
 
 Camera::~Camera()
@@ -87,20 +87,23 @@ void Camera::Rotate(float xAngle, float yAngle)
 {
 	float rotate = xAngle * 3.14159265 / 180;
 	xRotation -= rotate;
-	if (xRotation > 180) {
-		xRotation = 180;
+	if (xRotation > 3.14159265f) {
+		xRotation = -3.14159265f;
 	}
-	else if (xRotation < -180) {
-		xRotation = -180;
+	else if (xRotation < -3.14159265f) {
+		xRotation = 3.14159265f;
 	}
-
+	char array[10];
+	sprintf(array, "%f", xRotation);
+	printf(array);
+	printf("\n");
 	rotate = yAngle * 3.14159265 / 180;
 	yRotation += rotate;
-	if (yRotation > 180) {
-		yRotation = 180;
+	if (yRotation > 3.14159265f) {
+		yRotation = -3.14159265f;
 	}
-	else if (yRotation < -180) {
-		yRotation = -180;
+	else if (yRotation < -3.14159265f) {
+		yRotation = 3.14159265f;
 	}
 }
 

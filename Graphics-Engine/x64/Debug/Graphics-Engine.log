@@ -1,16 +1,7 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(387,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (DX11Starter.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  Material.cpp
-  GameEntity.cpp
-  Game.cpp
-c:\users\thunder hammer\repositories\graphics-engine\graphics-engine\game.cpp(67): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
-c:\users\thunder hammer\repositories\graphics-engine\graphics-engine\game.cpp(205): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
-c:\users\thunder hammer\repositories\graphics-engine\graphics-engine\game.cpp(304): warning C4244: 'initializing': conversion from 'LONG' to 'float', possible loss of data
-c:\users\thunder hammer\repositories\graphics-engine\graphics-engine\game.cpp(305): warning C4244: 'initializing': conversion from 'LONG' to 'float', possible loss of data
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (DX11Starter.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   Camera.cpp
-c:\users\thunder hammer\repositories\graphics-engine\graphics-engine\camera.cpp(88): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\thunder hammer\repositories\graphics-engine\graphics-engine\camera.cpp(97): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  Generating Code...
-  Compiling...
-  Main.cpp
-  Generating Code...
-  Graphics-Engine.vcxproj -> C:\Users\Thunder Hammer\Repositories\Graphics-Engine\x64\Debug\Graphics-Engine.exe
+d:\profiles\nxb3051\repositories\graphics-engine\graphics-engine\camera.cpp(88): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+d:\profiles\nxb3051\repositories\graphics-engine\graphics-engine\camera.cpp(100): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+d:\profiles\nxb3051\repositories\graphics-engine\graphics-engine\camera.cpp(97): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\stdio.h(1774): note: see declaration of 'sprintf'
+  Graphics-Engine.vcxproj -> D:\Profiles\nxb3051\Repositories\Graphics-Engine\x64\Debug\Graphics-Engine.exe
