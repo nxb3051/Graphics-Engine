@@ -93,10 +93,10 @@ void Camera::Rotate(float xAngle, float yAngle)
 	else if (xRotation < -3.14159265f) {
 		xRotation = 3.14159265f;
 	}
-	char array[10];
-	sprintf(array, "%f", xRotation);
-	printf(array);
-	printf("\n");
+	//char array[10];
+	//sprintf(array, "%f", xRotation);
+	//printf(array);
+	//printf("\n");
 	rotate = yAngle * 3.14159265 / 180;
 	yRotation += rotate;
 	if (yRotation > 3.14159265f) {

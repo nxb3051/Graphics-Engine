@@ -24,6 +24,8 @@ Game::Game(HINSTANCE hInstance)
 	vertexShader = 0;
 	pixelShader = 0;
 	helixMesh = 0;
+	torusMesh = 0;
+	cubeMesh = 0;
 	simpleMaterial = 0;
 	cam = new Camera();
 
@@ -47,6 +49,8 @@ Game::~Game()
 	delete vertexShader;
 	delete pixelShader;
 	delete helixMesh;
+	delete torusMesh;
+	delete cubeMesh;
 	delete simpleMaterial;
 	delete cam;
 }
@@ -65,9 +69,13 @@ void Game::Init()
 	cam->SetProjectionMatrix(width, height);
 	CreateBasicGeometry();
 
-	firstLight.AmbientColor = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
+	firstLight.AmbientColor = XMFLOAT4(0.1, 0.1, 0.1, 1.0);
 	firstLight.DiffuseColor = XMFLOAT4(0, 0, 1, 1);
 	firstLight.Direction = XMFLOAT3(1, -1, 0);
+
+	secondLight.AmbientColor = XMFLOAT4(0.1, 0.1, 0.1, 1.0);
+	secondLight.DiffuseColor = XMFLOAT4(0, 1, 0, 1);
+	secondLight.Direction = XMFLOAT3(1, 1, 0);
 
 	// Tell the input assembler stage of the pipeline what kind of
 	// geometric primitives (points, lines or triangles) we want to draw.  
@@ -172,11 +180,20 @@ void Game::CreateBasicGeometry()
 	UINT squIndices[] = { 0, 1, 2, 0, 2, 3 };
 	*/
 
-	helixMesh = new Mesh("../Assets/Models/helix.obj", device);
+	helixMesh = new Mesh("../../Assets/Models/helix.obj", device);
+	torusMesh = new Mesh("../../Assets/Models/torus.obj", device);
+	cubeMesh = new Mesh("../../Assets/Models/cube.obj", device);
 
 	GameEntity helixOne = GameEntity(helixMesh, simpleMaterial);
+	GameEntity torusOne = GameEntity(torusMesh, simpleMaterial);
+	GameEntity cubeOne = GameEntity(cubeMesh, simpleMaterial);
+
+	torusOne.MoveLocalX(-2.0f);
+	cubeOne.MoveLocalX(2.0f);
 
 	shapes.push_back(helixOne);
+	shapes.push_back(torusOne);
+	shapes.push_back(cubeOne);
 }
 
 
@@ -205,6 +222,8 @@ void Game::Update(float deltaTime, float totalTime)
 
 	if (shapes.size() > 0) {
 		shapes[0].Rotate(0.0f, 1.0f * deltaTime, 0.0f);
+		shapes[1].Rotate(1.0f * deltaTime, 0.0f, 0.0f);
+		shapes[2].Rotate(1.0f * deltaTime, 1.0f * deltaTime, 0.0f);
 	}
 }
 
@@ -233,7 +252,9 @@ void Game::Draw(float deltaTime, float totalTime)
 	//  - The "SimpleShader" class handles all of that for you.
 
 	for (int i = 0; i < shapes.size(); i++) {
-		pixelShader->SetData("light", &firstLight, sizeof(DirectionalLight));
+		pixelShader->SetData("light1", &firstLight, sizeof(DirectionalLight));
+		pixelShader->SetData("light2", &secondLight, sizeof(DirectionalLight));
+		pixelShader->CopyBufferData("Light");
 		shapes[i].PrepareMaterial(cam->GetViewMatrix(), cam->GetProjectionMatrix());
 		shapes[i].Draw(context);
 	}

@@ -40,6 +40,8 @@ private:
 	void CreateBasicGeometry();
 
 	Mesh * helixMesh;
+	Mesh * torusMesh;
+	Mesh * cubeMesh;
 
 	Material * simpleMaterial;
 
@@ -48,6 +50,7 @@ private:
 	Camera * cam;
 
 	DirectionalLight firstLight;
+	DirectionalLight secondLight;
 
 	// Wrappers for DirectX shaders to provide simplified functionality
 	SimpleVertexShader* vertexShader;
