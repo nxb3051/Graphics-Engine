@@ -65,6 +65,10 @@ void Game::Init()
 	cam->SetProjectionMatrix(width, height);
 	CreateBasicGeometry();
 
+	firstLight.AmbientColor = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
+	firstLight.DiffuseColor = XMFLOAT4(0, 0, 1, 1);
+	firstLight.Direction = XMFLOAT3(1, -1, 0);
+
 	// Tell the input assembler stage of the pipeline what kind of
 	// geometric primitives (points, lines or triangles) we want to draw.  
 	// Essentially: "What kind of shape should the GPU draw with our data?"
@@ -229,7 +233,7 @@ void Game::Draw(float deltaTime, float totalTime)
 	//  - The "SimpleShader" class handles all of that for you.
 
 	for (int i = 0; i < shapes.size(); i++) {
-		
+		pixelShader->SetData("light", &firstLight, sizeof(DirectionalLight));
 		shapes[i].PrepareMaterial(cam->GetViewMatrix(), cam->GetProjectionMatrix());
 		shapes[i].Draw(context);
 	}

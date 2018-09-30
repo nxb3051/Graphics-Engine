@@ -8,6 +8,7 @@
 #include "Mesh.h"
 #include "GameEntity.h"
 #include "Camera.h"
+#include "Lights.h"
 
 using namespace std;
 
@@ -45,6 +46,8 @@ private:
 	vector<GameEntity> shapes;
 
 	Camera * cam;
+
+	DirectionalLight firstLight;
 
 	// Wrappers for DirectX shaders to provide simplified functionality
 	SimpleVertexShader* vertexShader;
