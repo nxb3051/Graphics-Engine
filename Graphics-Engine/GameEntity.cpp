@@ -61,9 +61,9 @@ void GameEntity::SetRotation(XMFLOAT3 newRot)
 	changed = true;
 }
 
-void GameEntity::RotateZ(float angle)
+void GameEntity::Rotate(float xAngle, float yAngle, float zAngle)
 {
-	rotation = XMFLOAT3(rotation.x, rotation.y, rotation.z + angle);
+	rotation = XMFLOAT3(rotation.x + xAngle, rotation.y + yAngle, rotation.z + zAngle);
 	changed = true;
 }
 

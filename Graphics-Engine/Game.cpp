@@ -23,8 +23,7 @@ Game::Game(HINSTANCE hInstance)
 	// Initialize fields
 	vertexShader = 0;
 	pixelShader = 0;
-	triangleMesh = 0;
-	squareMesh = 0;
+	helixMesh = 0;
 	simpleMaterial = 0;
 	cam = new Camera();
 
@@ -47,8 +46,7 @@ Game::~Game()
 	// will clean up their own internal DirectX stuff
 	delete vertexShader;
 	delete pixelShader;
-	delete triangleMesh;
-	delete squareMesh;
+	delete helixMesh;
 	delete simpleMaterial;
 	delete cam;
 }
@@ -140,6 +138,7 @@ void Game::CreateMatrices()
 // --------------------------------------------------------
 void Game::CreateBasicGeometry()
 {
+	/*
 	// Create some temporary variables to represent colors
 	// - Not necessary, just makes things more readable
 	XMFLOAT4 red = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
@@ -164,32 +163,16 @@ void Game::CreateBasicGeometry()
 		{ XMFLOAT3(-1.0f, -1.0f, +0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
 	};
 
-	int triIndices[] = { 0, 1, 2 };
+	UINT triIndices[] = { 0, 1, 2 };
 
-	int squIndices[] = { 0, 1, 2, 0, 2, 3 };
+	UINT squIndices[] = { 0, 1, 2, 0, 2, 3 };
+	*/
 
-	triangleMesh = new Mesh(triVertices, 3, triIndices, 3, device);
+	helixMesh = new Mesh("../Assets/Models/helix.obj", device);
 
-	squareMesh = new Mesh(squVertices, 4, squIndices, 6, device);
+	GameEntity helixOne = GameEntity(helixMesh, simpleMaterial);
 
-	GameEntity triOne = GameEntity(triangleMesh, simpleMaterial);
-	GameEntity triTwo = GameEntity(triangleMesh, simpleMaterial);
-	GameEntity triThree = GameEntity(triangleMesh, simpleMaterial);
-	GameEntity squOne = GameEntity(squareMesh, simpleMaterial);
-	GameEntity squTwo = GameEntity(squareMesh, simpleMaterial);
-
-	triTwo.SetRotation(XMFLOAT3(0.0f, 0.0f, 3.14f));
-	triThree.SetPosition(XMFLOAT3(0.0f, -1.5f, 0.0f));
-	triThree.SetScale(XMFLOAT3(0.3f, 0.3f, 0.3f));
-
-	squOne.MoveLocalX(2.5f);
-	squTwo.MoveLocalX(-2.5f);
-
-	shapes.push_back(triOne);
-	shapes.push_back(triTwo);
-	shapes.push_back(triThree);
-	shapes.push_back(squOne);
-	shapes.push_back(squTwo);
+	shapes.push_back(helixOne);
 }
 
 
@@ -217,8 +200,7 @@ void Game::Update(float deltaTime, float totalTime)
 	cam->Update(deltaTime);
 
 	if (shapes.size() > 0) {
-		shapes[0].RotateZ(1.0f * deltaTime);
-		shapes[1].RotateZ(-1.0f * deltaTime);
+		shapes[0].Rotate(0.0f, 1.0f * deltaTime, 0.0f);
 	}
 }
 

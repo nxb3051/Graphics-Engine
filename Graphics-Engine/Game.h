@@ -38,8 +38,7 @@ private:
 	void CreateMatrices();
 	void CreateBasicGeometry();
 
-	Mesh * triangleMesh;
-	Mesh * squareMesh;
+	Mesh * helixMesh;
 
 	Material * simpleMaterial;
 

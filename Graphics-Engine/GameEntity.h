@@ -29,7 +29,7 @@ public:
 	void SetPosition(XMFLOAT3 newPos);
 	XMFLOAT3 GetRotation();
 	void SetRotation(XMFLOAT3 newRot);
-	void RotateZ(float angle);
+	void Rotate(float xAngle, float yAngle, float zAngle);
 	XMFLOAT3 GetScale();
 	void SetScale(XMFLOAT3 newScale);
 	void MoveLocalZ(float offset);
