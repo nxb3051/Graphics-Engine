@@ -151,17 +151,17 @@ void Game::CreateBasicGeometry()
 
 	Vertex triVertices[] =
 	{
-		{ XMFLOAT3(-0.0f, +1.0f, +0.0f), red },
-		{ XMFLOAT3(+1.0f, -1.0f, +0.0f), blue },
-		{ XMFLOAT3(-1.0f, -1.0f, +0.0f), green },
+		{ XMFLOAT3(-0.0f, +1.0f, +0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
+		{ XMFLOAT3(+1.0f, -1.0f, +0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
+		{ XMFLOAT3(-1.0f, -1.0f, +0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
 	};
 
 	Vertex squVertices[] =
 	{
-		{ XMFLOAT3(-1.0f, +1.0f, +0.0f), red },
-		{ XMFLOAT3(+1.0f, +1.0f, +0.0f), blue },
-		{ XMFLOAT3(+1.0f, -1.0f, +0.0f), green },
-		{ XMFLOAT3(-1.0f, -1.0f, +0.0f), yellow },
+		{ XMFLOAT3(-1.0f, +1.0f, +0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
+		{ XMFLOAT3(+1.0f, +1.0f, +0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
+		{ XMFLOAT3(+1.0f, -1.0f, +0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
+		{ XMFLOAT3(-1.0f, -1.0f, +0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
 	};
 
 	int triIndices[] = { 0, 1, 2 };
