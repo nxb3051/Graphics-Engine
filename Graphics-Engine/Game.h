@@ -3,6 +3,8 @@
 #include <DirectXMath.h>
 #include <memory>
 
+#include "WICTextureLoader.h"
+
 #include "DXCore.h"
 #include "SimpleShader.h"
 #include "Mesh.h"
@@ -36,12 +38,15 @@ private:
 
 	// Initialization helper methods - feel free to customize, combine, etc.
 	void LoadShaders(); 
+	void LoadTextures();
 	void CreateMatrices();
 	void CreateBasicGeometry();
 
 	Mesh * helixMesh;
 	Mesh * torusMesh;
 	Mesh * cubeMesh;
+
+	ID3D11ShaderResourceView * srv;
 
 	Material * simpleMaterial;
 

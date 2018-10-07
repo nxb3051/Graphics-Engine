@@ -26,6 +26,7 @@ Game::Game(HINSTANCE hInstance)
 	helixMesh = 0;
 	torusMesh = 0;
 	cubeMesh = 0;
+	srv = 0;
 	simpleMaterial = 0;
 	cam = new Camera();
 
@@ -52,6 +53,7 @@ Game::~Game()
 	delete torusMesh;
 	delete cubeMesh;
 	delete simpleMaterial;
+	delete srv;
 	delete cam;
 }
 
@@ -67,6 +69,7 @@ void Game::Init()
 	LoadShaders();
 	CreateMatrices();
 	cam->SetProjectionMatrix(width, height);
+	LoadTextures();
 	CreateBasicGeometry();
 
 	firstLight.AmbientColor = XMFLOAT4(0.1, 0.1, 0.1, 1.0);
@@ -100,7 +103,10 @@ void Game::LoadShaders()
 	simpleMaterial = new Material(vertexShader, pixelShader);
 }
 
-
+void Game::LoadTextures()
+{
+	CreateWICTextureFromFile(device, context, L"../../Assets/Textures/Lava_005_COLOR.jpg", 0, &srv);
+}
 
 // --------------------------------------------------------
 // Initializes the matrices necessary to represent our geometry's 
