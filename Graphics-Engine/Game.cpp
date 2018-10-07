@@ -67,14 +67,6 @@ Game::~Game()
 // --------------------------------------------------------
 void Game::Init()
 {
-	// Helper methods for loading shaders, creating some basic
-	// geometry to draw and some simple camera matrices.
-	//  - You'll be expanding and/or replacing these later	
-	LoadShaders();
-	CreateMatrices();
-	cam->SetProjectionMatrix(width, height);
-	LoadTextures();
-
 	//Sampler Description Field Initialization
 	sDescription = new D3D11_SAMPLER_DESC();
 	sDescription->AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
@@ -92,6 +84,15 @@ void Game::Init()
 	sDescription->MipLODBias = 0;
 
 	device->CreateSamplerState(sDescription, &sState);
+	LoadTextures();
+
+	// Helper methods for loading shaders, creating some basic
+	// geometry to draw and some simple camera matrices.
+	//  - You'll be expanding and/or replacing these later	
+	LoadShaders();
+	CreateMatrices();
+	cam->SetProjectionMatrix(width, height);
+
 	CreateBasicGeometry();
 
 	firstLight.AmbientColor = XMFLOAT4(0.1, 0.1, 0.1, 1.0);
@@ -122,7 +123,7 @@ void Game::LoadShaders()
 	pixelShader = new SimplePixelShader(device, context);
 	pixelShader->LoadShaderFile(L"PixelShader.cso");
 
-	simpleMaterial = new Material(vertexShader, pixelShader);
+	simpleMaterial = new Material(vertexShader, pixelShader, srv, sState);
 }
 
 void Game::LoadTextures()
