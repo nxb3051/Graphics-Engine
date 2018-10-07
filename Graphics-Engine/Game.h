@@ -47,6 +47,8 @@ private:
 	Mesh * cubeMesh;
 
 	ID3D11ShaderResourceView * srv;
+	ID3D11SamplerState * sState;
+	D3D11_SAMPLER_DESC * sDescription;
 
 	Material * simpleMaterial;
 

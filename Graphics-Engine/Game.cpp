@@ -27,6 +27,8 @@ Game::Game(HINSTANCE hInstance)
 	torusMesh = 0;
 	cubeMesh = 0;
 	srv = 0;
+	sState = 0;
+	sDescription = 0;
 	simpleMaterial = 0;
 	cam = new Camera();
 
@@ -54,6 +56,8 @@ Game::~Game()
 	delete cubeMesh;
 	delete simpleMaterial;
 	delete srv;
+	delete sState;
+	delete sDescription;
 	delete cam;
 }
 
@@ -70,6 +74,24 @@ void Game::Init()
 	CreateMatrices();
 	cam->SetProjectionMatrix(width, height);
 	LoadTextures();
+
+	//Sampler Description Field Initialization
+	sDescription = new D3D11_SAMPLER_DESC();
+	sDescription->AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	sDescription->AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	sDescription->AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	sDescription->BorderColor[0] = 0.0f;
+	sDescription->BorderColor[1] = 0.0f;
+	sDescription->BorderColor[2] = 0.0f;
+	sDescription->BorderColor[3] = 0.0f;
+	sDescription->ComparisonFunc = D3D11_COMPARISON_NEVER;
+	sDescription->Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	sDescription->MaxAnisotropy = 0;
+	sDescription->MaxLOD = D3D11_FLOAT32_MAX;
+	sDescription->MinLOD = 0;
+	sDescription->MipLODBias = 0;
+
+	device->CreateSamplerState(sDescription, &sState);
 	CreateBasicGeometry();
 
 	firstLight.AmbientColor = XMFLOAT4(0.1, 0.1, 0.1, 1.0);
