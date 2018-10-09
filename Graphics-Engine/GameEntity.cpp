@@ -125,7 +125,8 @@ void GameEntity::PrepareMaterial(XMFLOAT4X4 viewMat, XMFLOAT4X4 projMat)
 	SimplePixelShader * tempPixelShader = myMaterial->GetPixelShader();
 
 	tempPixelShader->SetSamplerState("basicSampler", myMaterial->GetSamplerState());
-	tempPixelShader->SetShaderResourceView("diffuseTexture", myMaterial->GetSRV());
+	tempPixelShader->SetShaderResourceView("diffuseTexture", myMaterial->GetSRVTexture());
+	tempPixelShader->SetShaderResourceView("normalTexture", myMaterial->GetSRVNormal());
 	myMaterial->GetPixelShader()->SetShader();
 }
 

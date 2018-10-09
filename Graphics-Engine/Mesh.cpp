@@ -224,6 +224,31 @@ Mesh::~Mesh()
 	indexBuffer->Release();
 }
 
+void Mesh::ComputeTangents()
+{
+	for (int i = 0; i < vertexCount; i += 3) {
+		
+		float deltaUV1X = (vertices[i + 1].UV.x - vertices[i].UV.x);
+		float deltaUV1Y = (vertices[i + 1].UV.y - vertices[i].UV.y);
+		float deltaUV2X = (vertices[i + 2].UV.x - vertices[i].UV.x);
+		float deltaUV2Y = (vertices[i + 2].UV.y - vertices[i].UV.y);
+
+		float r = 1.0f / (deltaUV1X * deltaUV2Y - deltaUV1Y * deltaUV2X);
+
+		XMVECTOR v0 = XMLoadFloat3(&vertices[i].Position);
+		XMVECTOR v1 = XMLoadFloat3(&vertices[i + 1].Position);
+		XMVECTOR v2 = XMLoadFloat3(&vertices[i + 2].Position);
+
+		XMVECTOR deltaPos1 = v1 - v0;
+		XMVECTOR deltaPos2 = v2 - v0;
+
+		XMVECTOR tangent = (deltaPos1 * deltaUV2Y - deltaPos2 * deltaUV1Y) * r;
+		XMVECTOR bitangent = (deltaPos1 * deltaUV1X - deltaPos2 * deltaUV2X) * r;
+
+		//only issue now is to figure out averaging all of the vertices tangents
+	}
+}
+
 ID3D11Buffer * Mesh::GetVertexBuffer()
 {
 	return vertexBuffer;

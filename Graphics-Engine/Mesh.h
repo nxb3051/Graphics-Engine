@@ -25,6 +25,7 @@ public:
 	Mesh(Vertex * vertArray, int numOfVerts, UINT * indexArray, int numOfInds, ID3D11Device * directXDevice);
 	void init(Vertex * vertArray, int numOfVerts, UINT * indexArray, int numOfInds, ID3D11Device * directXDevice);
 	~Mesh();
+	void ComputeTangents();
 	ID3D11Buffer * GetVertexBuffer();
 	ID3D11Buffer * GetIndexBuffer();
 	Vertex * GetVertices();

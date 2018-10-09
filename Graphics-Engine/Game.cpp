@@ -26,7 +26,8 @@ Game::Game(HINSTANCE hInstance)
 	helixMesh = 0;
 	torusMesh = 0;
 	cubeMesh = 0;
-	srv = 0;
+	srvTexture = 0;
+	srvNormal = 0;
 	sState = 0;
 	sDescription = 0;
 	simpleMaterial = 0;
@@ -55,7 +56,8 @@ Game::~Game()
 	delete torusMesh;
 	delete cubeMesh;
 	delete simpleMaterial;
-	srv->Release();
+	srvTexture->Release();
+	srvNormal->Release();
 	sState->Release();
 	delete sDescription;
 	delete cam;
@@ -123,12 +125,13 @@ void Game::LoadShaders()
 	pixelShader = new SimplePixelShader(device, context);
 	pixelShader->LoadShaderFile(L"PixelShader.cso");
 
-	simpleMaterial = new Material(vertexShader, pixelShader, srv, sState);
+	simpleMaterial = new Material(vertexShader, pixelShader, srvTexture, srvNormal, sState);
 }
 
 void Game::LoadTextures()
 {
-	CreateWICTextureFromFile(device, context, L"../../Assets/Textures/Lava_005_COLOR.jpg", 0, &srv);
+	CreateWICTextureFromFile(device, context, L"../../Assets/Textures/Lava_005_COLOR.jpg", 0, &srvTexture);
+	CreateWICTextureFromFile(device, context, L"../../Assets/Textures/Lava_005_NORM.jpg", 0, &srvNormal);
 }
 
 // --------------------------------------------------------

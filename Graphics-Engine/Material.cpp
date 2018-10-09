@@ -6,15 +6,16 @@ Material::Material()
 {
 	vertexShader = 0;
 	pixelShader = 0;
-	srv = 0;
+	texture = 0;
 	sState = 0;
 }
 
-Material::Material(SimpleVertexShader * vertShader, SimplePixelShader * pixShader, ID3D11ShaderResourceView * otherSRV, ID3D11SamplerState * otherState)
+Material::Material(SimpleVertexShader * vertShader, SimplePixelShader * pixShader, ID3D11ShaderResourceView * otherTexture, ID3D11ShaderResourceView * otherNormal, ID3D11SamplerState * otherState)
 {
 	vertexShader = vertShader;
 	pixelShader = pixShader;
-	srv = otherSRV;
+	texture = otherTexture;
+	normal = otherNormal;
 	sState = otherState;
 }
 
@@ -28,9 +29,14 @@ SimplePixelShader * Material::GetPixelShader()
 	return pixelShader;
 }
 
-ID3D11ShaderResourceView * Material::GetSRV()
+ID3D11ShaderResourceView * Material::GetSRVTexture()
 {
-	return srv;
+	return texture;
+}
+
+ID3D11ShaderResourceView * Material::GetSRVNormal()
+{
+	return normal;
 }
 
 ID3D11SamplerState * Material::GetSamplerState()

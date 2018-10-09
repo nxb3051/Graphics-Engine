@@ -13,6 +13,8 @@ struct VertexToPixel
 	//  v    v                v
 	float4 position		: SV_POSITION;
 	float3 normal		: NORMAL;
+	float3 tangent		: TANGENT;
+	float3 bitangent	: BITANGENT;
 	float2 uv			: TEXCOORD;
 };
 
@@ -28,6 +30,7 @@ cbuffer Light : register( b1 ) {
 };
 
 Texture2D diffuseTexture : register(t0);
+Texture2D normalTexture : register(t1);
 SamplerState basicSampler : register(s0);
 
 // --------------------------------------------------------
@@ -42,6 +45,12 @@ SamplerState basicSampler : register(s0);
 float4 main(VertexToPixel input) : SV_TARGET
 {
 	float4 surfaceColor = diffuseTexture.Sample(basicSampler, input.uv);
+	float3 normal = normalTexture.Sample(basicSampler, input.uv);
+	normal.r = (normal.r * 2) - 1;
+	normal.g = (normal.g * 2) - 1;
+	normal.b = (normal.b * 2) - 1;
+
+	//find the true normal here and so on
 
 	input.normal = normalize(input.normal);
 

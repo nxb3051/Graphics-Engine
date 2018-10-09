@@ -46,7 +46,8 @@ private:
 	Mesh * torusMesh;
 	Mesh * cubeMesh;
 
-	ID3D11ShaderResourceView * srv;
+	ID3D11ShaderResourceView * srvTexture;
+	ID3D11ShaderResourceView * srvNormal;
 	ID3D11SamplerState * sState;
 	D3D11_SAMPLER_DESC * sDescription;
 
