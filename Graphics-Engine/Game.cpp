@@ -101,10 +101,6 @@ void Game::Init()
 	firstLight.DiffuseColor = XMFLOAT4(1, 1, 1, 1);
 	firstLight.Direction = XMFLOAT3(1, -1, 0);
 
-	secondLight.AmbientColor = XMFLOAT4(0.1, 0.1, 0.1, 1.0);
-	secondLight.DiffuseColor = XMFLOAT4(1, 1, 1, 1);
-	secondLight.Direction = XMFLOAT3(1, 1, 0);
-
 	// Tell the input assembler stage of the pipeline what kind of
 	// geometric primitives (points, lines or triangles) we want to draw.  
 	// Essentially: "What kind of shape should the GPU draw with our data?"
@@ -285,7 +281,6 @@ void Game::Draw(float deltaTime, float totalTime)
 
 	for (int i = 0; i < shapes.size(); i++) {
 		pixelShader->SetData("light1", &firstLight, sizeof(DirectionalLight));
-		pixelShader->SetData("light2", &secondLight, sizeof(DirectionalLight));
 		pixelShader->CopyBufferData("Light");
 		shapes[i].PrepareMaterial(cam->GetViewMatrix(), cam->GetProjectionMatrix());
 		shapes[i].Draw(context);

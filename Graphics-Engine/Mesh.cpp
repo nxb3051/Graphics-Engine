@@ -122,6 +122,28 @@ Mesh::Mesh(char * fileName, ID3D11Device * directXDevice)
 			v2.Normal.z *= -1.0f;
 			v3.Normal.z *= -1.0f;
 
+			//Compute Tangents and Bitangents
+			float deltaUV1X = (v2.UV.x - v1.UV.x);
+			float deltaUV1Y = (v2.UV.y - v1.UV.y);
+			float deltaUV2X = (v2.UV.x - v1.UV.x);
+			float deltaUV2Y = (v2.UV.y - v1.UV.y);
+
+			float r = 1.0f / (deltaUV1X * deltaUV2Y - deltaUV1Y * deltaUV2X);
+
+			XMVECTOR deltaPos1 = XMLoadFloat3(&v2.Position) - XMLoadFloat3(&v1.Position);
+			XMVECTOR deltaPos2 = XMLoadFloat3(&v3.Position) - XMLoadFloat3(&v1.Position);
+
+			XMVECTOR tangent = (deltaPos1 * deltaUV2Y - deltaPos2 * deltaUV1Y) * r;
+			XMVECTOR bitangent = (deltaPos1 * deltaUV1X - deltaPos2 * deltaUV2X) * r;
+
+			XMStoreFloat3(&v1.Tangent, tangent);
+			XMStoreFloat3(&v2.Tangent, tangent);
+			XMStoreFloat3(&v3.Tangent, tangent);
+
+			XMStoreFloat3(&v1.BiTangent, bitangent);
+			XMStoreFloat3(&v2.BiTangent, bitangent);
+			XMStoreFloat3(&v3.BiTangent, bitangent);
+
 			// Add the verts to the vector (flipping the winding order)
 			verts.push_back(v1);
 			verts.push_back(v3);
@@ -226,27 +248,7 @@ Mesh::~Mesh()
 
 void Mesh::ComputeTangents()
 {
-	for (int i = 0; i < vertexCount; i += 3) {
-		
-		float deltaUV1X = (vertices[i + 1].UV.x - vertices[i].UV.x);
-		float deltaUV1Y = (vertices[i + 1].UV.y - vertices[i].UV.y);
-		float deltaUV2X = (vertices[i + 2].UV.x - vertices[i].UV.x);
-		float deltaUV2Y = (vertices[i + 2].UV.y - vertices[i].UV.y);
-
-		float r = 1.0f / (deltaUV1X * deltaUV2Y - deltaUV1Y * deltaUV2X);
-
-		XMVECTOR v0 = XMLoadFloat3(&vertices[i].Position);
-		XMVECTOR v1 = XMLoadFloat3(&vertices[i + 1].Position);
-		XMVECTOR v2 = XMLoadFloat3(&vertices[i + 2].Position);
-
-		XMVECTOR deltaPos1 = v1 - v0;
-		XMVECTOR deltaPos2 = v2 - v0;
-
-		XMVECTOR tangent = (deltaPos1 * deltaUV2Y - deltaPos2 * deltaUV1Y) * r;
-		XMVECTOR bitangent = (deltaPos1 * deltaUV1X - deltaPos2 * deltaUV2X) * r;
-
-		//only issue now is to figure out averaging all of the vertices tangents
-	}
+// Unneeded
 }
 
 ID3D11Buffer * Mesh::GetVertexBuffer()
