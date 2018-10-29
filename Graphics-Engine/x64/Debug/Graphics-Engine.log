@@ -1,12 +1,5 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (DX11Starter.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-Z:\IGMProfile\Repositories\Graphics-Engine\Graphics-Engine\PixelShader.hlsl(47,9-61): warning X3206: implicit truncation of vector type
-  
   compilation object save succeeded; see Z:\IGMProfile\Repositories\Graphics-Engine\x64\Debug\PixelShader.cso
-  compilation object save succeeded; see Z:\IGMProfile\Repositories\Graphics-Engine\x64\Debug\VertexShader.cso
-  Camera.cpp
-z:\igmprofile\repositories\graphics-engine\graphics-engine\camera.cpp(88): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-z:\igmprofile\repositories\graphics-engine\graphics-engine\camera.cpp(100): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  DXCore.cpp
   Game.cpp
 z:\igmprofile\repositories\graphics-engine\graphics-engine\game.cpp(96): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
 z:\igmprofile\repositories\graphics-engine\graphics-engine\game.cpp(100): warning C4305: 'argument': truncation from 'double' to 'float'
@@ -15,8 +8,6 @@ z:\igmprofile\repositories\graphics-engine\graphics-engine\game.cpp(338): warnin
 z:\igmprofile\repositories\graphics-engine\graphics-engine\game.cpp(339): warning C4244: 'initializing': conversion from 'LONG' to 'float', possible loss of data
   GameEntity.cpp
   Main.cpp
-  Material.cpp
   Mesh.cpp
-  SimpleShader.cpp
   Generating Code...
   Graphics-Engine.vcxproj -> Z:\IGMProfile\Repositories\Graphics-Engine\x64\Debug\Graphics-Engine.exe

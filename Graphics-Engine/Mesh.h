@@ -32,5 +32,6 @@ public:
 	int GetVertexCount();
 	UINT * GetIndices();
 	int GetIndexCount();
+	void CalculateTangents(Vertex * verts, int numVerts, unsigned int * indices, int numIndices);
 };
 
