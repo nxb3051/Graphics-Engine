@@ -42,16 +42,18 @@ private:
 	void CreateMatrices();
 	void CreateBasicGeometry();
 
-	Mesh * helixMesh;
-	Mesh * torusMesh;
+	Mesh * sphereMesh;
 	Mesh * cubeMesh;
 
-	ID3D11ShaderResourceView * srvTexture;
-	ID3D11ShaderResourceView * srvNormal;
+	ID3D11ShaderResourceView * lavaSRV;
+	ID3D11ShaderResourceView * lavaNormal;
+	ID3D11ShaderResourceView * crystalSRV;
+	ID3D11ShaderResourceView * crystalNormal;
 	ID3D11SamplerState * sState;
 	D3D11_SAMPLER_DESC * sDescription;
 
-	Material * simpleMaterial;
+	Material * lavaMat;
+	Material * crystalMat;
 
 	vector<GameEntity> shapes;
 

@@ -23,14 +23,16 @@ Game::Game(HINSTANCE hInstance)
 	// Initialize fields
 	vertexShader = 0;
 	pixelShader = 0;
-	helixMesh = 0;
-	torusMesh = 0;
+	sphereMesh = 0;
 	cubeMesh = 0;
-	srvTexture = 0;
-	srvNormal = 0;
+	lavaSRV = 0;
+	lavaNormal = 0;
+	crystalSRV = 0;
+	crystalNormal = 0;
 	sState = 0;
 	sDescription = 0;
-	simpleMaterial = 0;
+	lavaMat = 0;
+	crystalMat = 0;
 	cam = new Camera();
 
 #if defined(DEBUG) || defined(_DEBUG)
@@ -52,12 +54,14 @@ Game::~Game()
 	// will clean up their own internal DirectX stuff
 	delete vertexShader;
 	delete pixelShader;
-	delete helixMesh;
-	delete torusMesh;
+	delete sphereMesh;
 	delete cubeMesh;
-	delete simpleMaterial;
-	srvTexture->Release();
-	srvNormal->Release();
+	delete lavaMat;
+	delete crystalMat;
+	lavaSRV->Release();
+	lavaNormal->Release();
+	crystalSRV->Release();
+	crystalNormal->Release();
 	sState->Release();
 	delete sDescription;
 	delete cam;
@@ -125,13 +129,16 @@ void Game::LoadShaders()
 	pixelShader = new SimplePixelShader(device, context);
 	pixelShader->LoadShaderFile(L"PixelShader.cso");
 
-	simpleMaterial = new Material(vertexShader, pixelShader, srvTexture, srvNormal, sState);
+	lavaMat = new Material(vertexShader, pixelShader, lavaSRV, lavaNormal, sState);
+	crystalMat = new Material(vertexShader, pixelShader, crystalSRV, crystalNormal, sState);
 }
 
 void Game::LoadTextures()
 {
-	CreateWICTextureFromFile(device, context, L"../../Assets/Textures/Lava_005_COLOR.jpg", 0, &srvTexture);
-	CreateWICTextureFromFile(device, context, L"../../Assets/Textures/Lava_005_NORM.jpg", 0, &srvNormal);
+	CreateWICTextureFromFile(device, context, L"../../Assets/Textures/Lava_005_COLOR.jpg", 0, &lavaSRV);
+	CreateWICTextureFromFile(device, context, L"../../Assets/Textures/Lava_005_NORM.jpg", 0, &lavaNormal);
+	CreateWICTextureFromFile(device, context, L"../../Assets/Textures/Sapphire_001_COLOR.jpg", 0, &crystalSRV);
+	CreateWICTextureFromFile(device, context, L"../../Assets/Textures/Sapphire_001_NORM.jpg", 0, &crystalNormal);
 }
 
 // --------------------------------------------------------
@@ -212,19 +219,15 @@ void Game::CreateBasicGeometry()
 	UINT squIndices[] = { 0, 1, 2, 0, 2, 3 };
 	*/
 
-	helixMesh = new Mesh("../../Assets/Models/helix.obj", device);
-	torusMesh = new Mesh("../../Assets/Models/torus.obj", device);
+	sphereMesh = new Mesh("../../Assets/Models/sphere.obj", device);
 	cubeMesh = new Mesh("../../Assets/Models/cube.obj", device);
 
-	GameEntity helixOne = GameEntity(helixMesh, simpleMaterial);
-	GameEntity torusOne = GameEntity(torusMesh, simpleMaterial);
-	GameEntity cubeOne = GameEntity(cubeMesh, simpleMaterial);
+	GameEntity helixOne = GameEntity(sphereMesh, lavaMat);
+	GameEntity cubeOne = GameEntity(cubeMesh, crystalMat);
 
-	torusOne.MoveLocalX(-2.0f);
 	cubeOne.MoveLocalX(2.0f);
 
 	shapes.push_back(helixOne);
-	shapes.push_back(torusOne);
 	shapes.push_back(cubeOne);
 }
 
@@ -253,9 +256,8 @@ void Game::Update(float deltaTime, float totalTime)
 	cam->Update(deltaTime);
 
 	if (shapes.size() > 0) {
-		shapes[0].Rotate(0.0f, 1.0f * deltaTime, 0.0f);
-		shapes[1].Rotate(1.0f * deltaTime, 0.0f, 0.0f);
-		shapes[2].Rotate(1.0f * deltaTime, 1.0f * deltaTime, 0.0f);
+		shapes[0].Rotate(0.0f, 0.5f * deltaTime, 0.0f);
+		shapes[1].Rotate(0.5f * deltaTime, 0.5f * deltaTime, 0.0f);
 	}
 }
 
