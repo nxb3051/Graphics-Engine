@@ -283,7 +283,8 @@ void Game::Draw(float deltaTime, float totalTime)
 
 	for (int i = 0; i < shapes.size(); i++) {
 		pixelShader->SetData("light1", &firstLight, sizeof(DirectionalLight));
-		pixelShader->CopyBufferData("Light");
+		pixelShader->SetFloat3("cameraPosition", cam->GetPosition());
+		pixelShader->CopyAllBufferData();
 		shapes[i].PrepareMaterial(cam->GetViewMatrix(), cam->GetProjectionMatrix());
 		shapes[i].Draw(context);
 	}

@@ -27,6 +27,7 @@ public:
 	void Rotate(float xAngle, float yAngle);
 	XMFLOAT4X4 GetViewMatrix();
 	XMFLOAT4X4 GetProjectionMatrix();
+	XMFLOAT3 GetPosition();
 	void SetProjectionMatrix(float width, float height);
 };
 

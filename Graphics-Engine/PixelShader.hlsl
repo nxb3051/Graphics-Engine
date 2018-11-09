@@ -12,6 +12,7 @@ struct VertexToPixel
 	//  |    |                |
 	//  v    v                v
 	float4 position		: SV_POSITION;
+	float3 worldPos		: POSITION;
 	float3 normal		: NORMAL;
 	float3 tangent		: TANGENT;
 	float2 uv			: TEXCOORD;
@@ -26,6 +27,10 @@ struct DirectionalLight {
 cbuffer Light : register( b1 ) {
 	DirectionalLight light1;
 };
+
+cbuffer Camera : register(b2) {
+	float3 cameraPosition;
+}
 
 Texture2D diffuseTexture : register(t0);
 Texture2D normalTexture : register(t1);
@@ -59,7 +64,12 @@ float4 main(VertexToPixel input) : SV_TARGET
 
 	NdotL1 = saturate(NdotL1);
 
-	float4 color1 = surfaceColor * (light1.AmbientColor + (light1.DiffuseColor * NdotL1));
+	float3 reflection = reflect(-light1Dir, finalnormal);
+	float3 dirToCamera = normalize(cameraPosition - input.worldPos);
+	float specAmt = pow(saturate(dot(reflection, dirToCamera)), 64.0f);
+	float4 specColor = float4(1, 1, 1, 1) * specAmt;
+
+	float4 color1 = surfaceColor * (light1.AmbientColor + (light1.DiffuseColor * NdotL1) + specColor);
 
 	return  color1;
 }

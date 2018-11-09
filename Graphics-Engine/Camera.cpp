@@ -117,6 +117,11 @@ XMFLOAT4X4 Camera::GetProjectionMatrix()
 	return projectionMatrix;
 }
 
+XMFLOAT3 Camera::GetPosition()
+{
+	return XMFLOAT3(position.x, position.y, position.z);
+}
+
 void Camera::SetProjectionMatrix(float width, float height)
 {
 	XMMATRIX P = XMMatrixPerspectiveFovLH(
