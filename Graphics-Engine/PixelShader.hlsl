@@ -14,7 +14,6 @@ struct VertexToPixel
 	float4 position		: SV_POSITION;
 	float3 normal		: NORMAL;
 	float3 tangent		: TANGENT;
-	float3 bitangent	: BITANGENT;
 	float2 uv			: TEXCOORD;
 };
 
@@ -26,7 +25,6 @@ struct DirectionalLight {
 
 cbuffer Light : register( b1 ) {
 	DirectionalLight light1;
-	DirectionalLight light2;
 };
 
 Texture2D diffuseTexture : register(t0);
@@ -45,26 +43,23 @@ SamplerState basicSampler : register(s0);
 float4 main(VertexToPixel input) : SV_TARGET
 {
 	float4 surfaceColor = diffuseTexture.Sample(basicSampler, input.uv);
-	float3 normal = normalTexture.Sample(basicSampler, input.uv);
-	normal.r = (normal.r * 2) - 1;
-	normal.g = (normal.g * 2) - 1;
-	normal.b = (normal.b * 2) - 1;
+	float3 normalmap = normalTexture.Sample(basicSampler, input.uv).rgb * 2 - 1;
 
 	//find the true normal here and so on
+	float3 normal = normalize(input.normal);
+	float3 tangent = normalize(input.tangent - normal * dot(input.tangent, normal));
+	float3 bitangent = cross(tangent, normal);
+	float3x3 TBN = float3x3(tangent, bitangent, normal);
 
-	input.normal = normalize(input.normal);
+	float3 finalnormal = normalize(mul(normalmap, TBN));
 
 	float3 light1Dir = normalize(-light1.Direction);
-	float3 light2Dir = normalize(-light2.Direction);
 
-	float NdotL1 = dot(input.normal, light1Dir);
-	float NdotL2 = dot(input.normal, light2Dir);
+	float NdotL1 = dot(finalnormal, light1Dir);
 
 	NdotL1 = saturate(NdotL1);
-	NdotL2 = saturate(NdotL2);
 
 	float4 color1 = surfaceColor * (light1.AmbientColor + (light1.DiffuseColor * NdotL1));
-	float4 color2 = surfaceColor * (light2.AmbientColor + (light2.DiffuseColor * NdotL2));
 
-	return  color1 + color2;
+	return  color1;
 }
