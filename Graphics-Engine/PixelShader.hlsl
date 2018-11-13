@@ -50,11 +50,13 @@ float4 main(VertexToPixel input) : SV_TARGET
 	float4 surfaceColor = diffuseTexture.Sample(basicSampler, input.uv);
 	float3 normalmap = normalTexture.Sample(basicSampler, input.uv).rgb * 2 - 1;
 
+	input.normal = normalize(input.normal);
+	input.tangent = normalize(input.tangent);
+
 	//find the true normal here and so on
-	float3 normal = normalize(input.normal);
-	float3 tangent = normalize(input.tangent - normal * dot(input.tangent, normal));
-	float3 bitangent = cross(tangent, normal);
-	float3x3 TBN = float3x3(tangent, bitangent, normal);
+	input.tangent = normalize(input.tangent - input.normal * dot(input.tangent, input.normal));
+	float3 bitangent = cross(input.tangent, input.normal);
+	float3x3 TBN = float3x3(input.tangent, bitangent, input.normal);
 
 	float3 finalnormal = normalize(mul(normalmap, TBN));
 
@@ -71,5 +73,5 @@ float4 main(VertexToPixel input) : SV_TARGET
 
 	float4 color1 = surfaceColor * (light1.AmbientColor + (light1.DiffuseColor * NdotL1) + specColor);
 
-	return  color1;
+	return color1;
 }

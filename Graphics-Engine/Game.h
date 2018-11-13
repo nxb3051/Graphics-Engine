@@ -45,6 +45,8 @@ private:
 	Mesh * sphereMesh;
 	Mesh * cubeMesh;
 
+	float rotateValue = 0.1f;
+
 	ID3D11ShaderResourceView * lavaSRV;
 	ID3D11ShaderResourceView * lavaNormal;
 	ID3D11ShaderResourceView * crystalSRV;

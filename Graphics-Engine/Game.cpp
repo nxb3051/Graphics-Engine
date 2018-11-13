@@ -249,11 +249,15 @@ void Game::Update(float deltaTime, float totalTime)
 	if (GetAsyncKeyState(VK_ESCAPE))
 		Quit();
 
+	if (GetAsyncKeyState('R')) {
+		rotateValue *= -1;
+	}
+
 	cam->Update(deltaTime);
 
 	if (shapes.size() > 0) {
 		shapes[0].Rotate(0.0f, 0.5f * deltaTime, 0.0f);
-		shapes[1].Rotate(0.5f * deltaTime, 0.5f * deltaTime, 0.0f);
+		shapes[1].Rotate(rotateValue * deltaTime, rotateValue * deltaTime, 0.0f);
 	}
 }
 
