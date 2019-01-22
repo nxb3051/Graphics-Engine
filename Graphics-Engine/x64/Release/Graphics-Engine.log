@@ -1,0 +1,16 @@
+﻿  compilation object save succeeded; see Z:\IGMProfile\Repositories\Graphics-Engine\x64\Release\SkyBoxPS.cso
+  compilation object save succeeded; see Z:\IGMProfile\Repositories\Graphics-Engine\x64\Release\SkyBoxVS.cso
+  compilation object save succeeded; see Z:\IGMProfile\Repositories\Graphics-Engine\x64\Release\VertexShader.cso
+  Game.cpp
+z:\igmprofile\repositories\graphics-engine\graphics-engine\game.cpp(108): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+z:\igmprofile\repositories\graphics-engine\graphics-engine\game.cpp(112): warning C4305: 'argument': truncation from 'double' to 'float'
+z:\igmprofile\repositories\graphics-engine\graphics-engine\game.cpp(270): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+z:\igmprofile\repositories\graphics-engine\graphics-engine\game.cpp(409): warning C4244: 'initializing': conversion from 'LONG' to 'float', possible loss of data
+z:\igmprofile\repositories\graphics-engine\graphics-engine\game.cpp(410): warning C4244: 'initializing': conversion from 'LONG' to 'float', possible loss of data
+  Main.cpp
+  Generating code
+  2 of 1951 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Graphics-Engine.vcxproj -> Z:\IGMProfile\Repositories\Graphics-Engine\x64\Release\Graphics-Engine.exe

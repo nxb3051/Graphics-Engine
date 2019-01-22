@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "WICTextureLoader.h"
+#include "DDSTextureLoader.h"
 
 #include "DXCore.h"
 #include "SimpleShader.h"
@@ -14,7 +15,7 @@
 
 using namespace std;
 
-class Game 
+class Game
 	: public DXCore
 {
 
@@ -30,14 +31,14 @@ public:
 	void Draw(float deltaTime, float totalTime);
 
 	// Overridden mouse input helper methods
-	void OnMouseDown (WPARAM buttonState, int x, int y);
-	void OnMouseUp	 (WPARAM buttonState, int x, int y);
-	void OnMouseMove (WPARAM buttonState, int x, int y);
-	void OnMouseWheel(float wheelDelta,   int x, int y);
+	void OnMouseDown(WPARAM buttonState, int x, int y);
+	void OnMouseUp(WPARAM buttonState, int x, int y);
+	void OnMouseMove(WPARAM buttonState, int x, int y);
+	void OnMouseWheel(float wheelDelta, int x, int y);
 private:
 
 	// Initialization helper methods - feel free to customize, combine, etc.
-	void LoadShaders(); 
+	void LoadShaders();
 	void LoadTextures();
 	void CreateMatrices();
 	void CreateBasicGeometry();
@@ -45,7 +46,7 @@ private:
 	Mesh * sphereMesh;
 	Mesh * cubeMesh;
 
-	float rotateValue = 0.1f;
+	float rotateValue = 0.5f;
 
 	ID3D11ShaderResourceView * lavaSRV;
 	ID3D11ShaderResourceView * lavaNormal;
@@ -66,6 +67,16 @@ private:
 	// Wrappers for DirectX shaders to provide simplified functionality
 	SimpleVertexShader* vertexShader;
 	SimplePixelShader* pixelShader;
+
+	//Sky
+	ID3D11ShaderResourceView* skySRV;
+	ID3D11DepthStencilState* skyDepthState;
+	ID3D11RasterizerState* skyRasterizerState;
+
+	Mesh* skyMesh;
+
+	SimpleVertexShader* skyVertexShader;
+	SimplePixelShader* skyPixelShader;
 
 	// The matrices to go from model space to screen space
 	DirectX::XMFLOAT4X4 worldMatrix;

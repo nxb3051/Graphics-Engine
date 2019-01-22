@@ -65,6 +65,14 @@ Game::~Game()
 	sState->Release();
 	delete sDescription;
 	delete cam;
+
+	delete skyPixelShader;
+	delete skyVertexShader;
+	delete skyMesh;
+
+	skySRV->Release();
+	skyRasterizerState->Release();
+	skyDepthState->Release();
 }
 
 // --------------------------------------------------------
@@ -105,6 +113,19 @@ void Game::Init()
 	firstLight.DiffuseColor = XMFLOAT4(1, 1, 1, 1);
 	firstLight.Direction = XMFLOAT3(1, -1, 0);
 
+	//SkyBox
+	D3D11_RASTERIZER_DESC rs = {};
+	rs.FillMode = D3D11_FILL_SOLID;
+	rs.CullMode = D3D11_CULL_FRONT;
+	rs.DepthClipEnable = true;
+	device->CreateRasterizerState(&rs, &skyRasterizerState);
+
+	D3D11_DEPTH_STENCIL_DESC ds = {};
+	ds.DepthEnable = true;
+	ds.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	ds.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+	device->CreateDepthStencilState(&ds, &skyDepthState);
+
 	// Tell the input assembler stage of the pipeline what kind of
 	// geometric primitives (points, lines or triangles) we want to draw.  
 	// Essentially: "What kind of shape should the GPU draw with our data?"
@@ -125,6 +146,12 @@ void Game::LoadShaders()
 	pixelShader = new SimplePixelShader(device, context);
 	pixelShader->LoadShaderFile(L"PixelShader.cso");
 
+	skyVertexShader = new SimpleVertexShader(device, context);
+	skyVertexShader->LoadShaderFile(L"SkyBoxVS.cso");
+
+	skyPixelShader = new SimplePixelShader(device, context);
+	skyPixelShader->LoadShaderFile(L"SkyBoxPS.cso");
+
 	lavaMat = new Material(vertexShader, pixelShader, lavaSRV, lavaNormal, sState);
 	crystalMat = new Material(vertexShader, pixelShader, crystalSRV, crystalNormal, sState);
 }
@@ -135,6 +162,7 @@ void Game::LoadTextures()
 	CreateWICTextureFromFile(device, context, L"../../Assets/Textures/Lava_005_NORM.jpg", 0, &lavaNormal);
 	CreateWICTextureFromFile(device, context, L"../../Assets/Textures/Sapphire_001_COLOR.jpg", 0, &crystalSRV);
 	CreateWICTextureFromFile(device, context, L"../../Assets/Textures/Sapphire_001_NORM.jpg", 0, &crystalNormal);
+	CreateDDSTextureFromFile(device, context, L"../../Assets/Textures/Sky/SunnyCubeMap.dds", 0, &skySRV);
 }
 
 // --------------------------------------------------------
@@ -218,6 +246,8 @@ void Game::CreateBasicGeometry()
 	sphereMesh = new Mesh("../../Assets/Models/sphere.obj", device);
 	cubeMesh = new Mesh("../../Assets/Models/cube.obj", device);
 
+	skyMesh = new Mesh("../../Assets/Models/cube.obj", device);
+
 	GameEntity helixOne = GameEntity(sphereMesh, lavaMat);
 	GameEntity cubeOne = GameEntity(cubeMesh, crystalMat);
 
@@ -278,6 +308,8 @@ void Game::Draw(float deltaTime, float totalTime)
 		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL,
 		1.0f,
 		0);
+	UINT stride = sizeof(Vertex);
+	UINT offset = 0;
 
 	// Send data to shader variables
 	//  - Do this ONCE PER OBJECT you're drawing
@@ -292,6 +324,38 @@ void Game::Draw(float deltaTime, float totalTime)
 		shapes[i].PrepareMaterial(cam->GetViewMatrix(), cam->GetProjectionMatrix());
 		shapes[i].Draw(context);
 	}
+
+	//SKYYYYYYYYBOXXXXXX
+	context->RSSetState(skyRasterizerState);
+	context->OMSetDepthStencilState(skyDepthState, 0);
+
+	// After drawing all of our regular (solid) objects, draw the sky!
+	ID3D11Buffer* skyVB = skyMesh->GetVertexBuffer();
+	ID3D11Buffer* skyIB = skyMesh->GetIndexBuffer();
+
+	// Set the buffers
+	context->IASetVertexBuffers(0, 1, &skyVB, &stride, &offset);
+	context->IASetIndexBuffer(skyIB, DXGI_FORMAT_R32_UINT, 0);
+
+	skyVertexShader->SetMatrix4x4("view", cam->GetViewMatrix());
+	skyVertexShader->SetMatrix4x4("projection", cam->GetProjectionMatrix());
+
+	skyVertexShader->CopyAllBufferData();
+	skyVertexShader->SetShader();
+
+	// Send texture-related stuff
+	skyPixelShader->SetShaderResourceView("SkyTex", skySRV);
+	skyPixelShader->SetSamplerState("SkySampler", sState);
+
+	skyPixelShader->CopyAllBufferData(); // Remember to copy to the GPU!!!!
+	skyPixelShader->SetShader();
+
+	// Finally do the actual drawing
+	context->DrawIndexed(skyMesh->GetIndexCount(), 0, 0);
+
+	//Reset changed states
+	context->RSSetState(0);
+	context->OMSetDepthStencilState(0, 0);
 
 	// Present the back buffer to the user
 	//  - Puts the final frame we're drawing into the window so the user can see it
