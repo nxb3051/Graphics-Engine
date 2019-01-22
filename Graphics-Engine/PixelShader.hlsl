@@ -34,6 +34,7 @@ cbuffer Camera : register(b2) {
 
 Texture2D diffuseTexture : register(t0);
 Texture2D normalTexture : register(t1);
+TextureCube SkyTex : register(t2);
 SamplerState basicSampler : register(s0);
 
 // --------------------------------------------------------
@@ -71,7 +72,14 @@ float4 main(VertexToPixel input) : SV_TARGET
 	float specAmt = pow(saturate(dot(reflection, dirToCamera)), 64.0f);
 	float4 specColor = float4(1, 1, 1, 1) * specAmt;
 
+	float3 reflectVector = reflect(-dirToCamera, finalnormal);
+	float4 reflectColor = SkyTex.Sample(basicSampler, reflectVector);
+
 	float4 color1 = surfaceColor * (light1.AmbientColor + (light1.DiffuseColor * NdotL1) + specColor);
+
+	float4 baseReflectColor = float4(0.3, 0.3, 0.3, 1.0);
+
+	color1 += baseReflectColor*reflectColor;
 
 	return color1;
 }

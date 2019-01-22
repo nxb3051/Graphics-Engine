@@ -322,6 +322,7 @@ void Game::Draw(float deltaTime, float totalTime)
 		pixelShader->SetFloat3("cameraPosition", cam->GetPosition());
 		pixelShader->CopyAllBufferData();
 		shapes[i].PrepareMaterial(cam->GetViewMatrix(), cam->GetProjectionMatrix());
+		pixelShader->SetShaderResourceView("SkyTex", skySRV);
 		shapes[i].Draw(context);
 	}
 
