@@ -1,4 +1,22 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (DX11Starter.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  compilation object save succeeded; see Z:\IGMProfile\Repositories\Graphics-Engine\x64\Debug\PixelShader.cso
-  compilation object save succeeded; see Z:\IGMProfile\Repositories\Graphics-Engine\x64\Debug\VertexShader.cso
-  Graphics-Engine.vcxproj -> Z:\IGMProfile\Repositories\Graphics-Engine\x64\Debug\Graphics-Engine.exe
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(387,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (DX11Starter.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  compilation object save succeeded; see C:\Users\Thunder Hammer\Repositories\Graphics-Engine\x64\Debug\PixelShader.cso
+  compilation object save succeeded; see C:\Users\Thunder Hammer\Repositories\Graphics-Engine\x64\Debug\SkyBoxPS.cso
+  compilation object save succeeded; see C:\Users\Thunder Hammer\Repositories\Graphics-Engine\x64\Debug\SkyBoxVS.cso
+  compilation object save succeeded; see C:\Users\Thunder Hammer\Repositories\Graphics-Engine\x64\Debug\VertexShader.cso
+  SimpleShader.cpp
+  Mesh.cpp
+  Material.cpp
+  Main.cpp
+  GameEntity.cpp
+  Game.cpp
+c:\users\thunder hammer\repositories\graphics-engine\graphics-engine\game.cpp(108): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\thunder hammer\repositories\graphics-engine\graphics-engine\game.cpp(112): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\thunder hammer\repositories\graphics-engine\graphics-engine\game.cpp(270): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+c:\users\thunder hammer\repositories\graphics-engine\graphics-engine\game.cpp(410): warning C4244: 'initializing': conversion from 'LONG' to 'float', possible loss of data
+c:\users\thunder hammer\repositories\graphics-engine\graphics-engine\game.cpp(411): warning C4244: 'initializing': conversion from 'LONG' to 'float', possible loss of data
+  DXCore.cpp
+  Camera.cpp
+c:\users\thunder hammer\repositories\graphics-engine\graphics-engine\camera.cpp(88): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\thunder hammer\repositories\graphics-engine\graphics-engine\camera.cpp(100): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
+  Graphics-Engine.vcxproj -> C:\Users\Thunder Hammer\Repositories\Graphics-Engine\x64\Debug\Graphics-Engine.exe
